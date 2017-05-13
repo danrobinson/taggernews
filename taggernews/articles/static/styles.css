@@ -1,7 +1,3 @@
-<html op="news"><head><meta name="referrer" content="origin"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--<link rel="shortcut icon" href="favicon.ico">-->
-<title>Tagger News</title>
-<style>
   body  { font-family:Verdana, Geneva, sans-serif; font-size:10pt; color:#828282; }
 td    { font-family:Verdana, Geneva, sans-serif; font-size:10pt; color:#828282; }
 
@@ -25,7 +21,7 @@ a:visited { color:#828282; text-decoration:none; }
 .comment { font-family:Verdana, Geneva, sans-serif; font-size:  9pt; }
 .hnname  { margin-right: 5px; }
 
-.tag { font-family:Verdana, Geneva, sans-serif; font-size:  8pt; color:#efefef; background-color:#191970; padding: 3px }
+.tag { font-family:Verdana, Geneva, sans-serif; font-size:  9pt; color:#efefef; background-color:#191970; padding-top: 4px; padding-bottom: 4px; padding-left: 6px; padding-right: 6px }
 
 .comment a:link, .comment a:visited { text-decoration: underline; }
 .noshow { display: none; }
@@ -169,42 +165,3 @@ pre { max-width: 900px; }
   .comment { max-width: 1130px; overflow: auto }
   pre { max-width: 840px; }
 }
-</style>
-</head>
-<body>
-  <center>
-    <table id="hnmain" border="0" cellpadding="0" cellspacing="0" width="85%" bgcolor="#F7F9F9">
-<tr><td bgcolor="#3a91ca"><table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding:2px"><tr><td style="width:18px;padding-right:4px"><a href="http://www.ycombinator.com"><img src="/static/t.png" width="18" height="18" style="border:1px white solid;"></a></td>
-                  <td style="line-height:12pt; height:10px;">
-              <span class="pagetop"><b class="hnname"><a href="news">Tagger News</a></b>
-              <!--<a href="newest">new</a> | <a href="threads?id=dynamic">threads</a> | <a href="newcomments">comments</a> | <a href="show">show</a> | <a href="ask">ask</a> | <a href="jobs">jobs</a> | <a href="submit">submit</a>            -->
-              </span>
-              </td><td style="text-align:right;padding-right:4px;"><span class="pagetop">
-                </span></td>
-              </tr></table></td></tr>
-<tr style="height:10px"></tr><tr><td><table border="0" cellpadding="0" cellspacing="0" class="itemlist">
-
-{% for article in articles %}
-<tr class='athing' id='14330547'>
-      <td align="right" valign="top" class="title"><span class="rank">{{ forloop.counter }}.</span></td>      
-      <td valign="top" class="votelinks"><center>
-          <div class='votearrow' title='upvote'></div></center></td>
-          <td class="title"><a href="{{ article.article_url }}" class="storylink">{{ article.title }}</a>
-          <span class="sitebit comhead"> (<span class="sitestr">{{ article.site }}</span>)</span>
-          {% for tag in article.tags.all %}<span class="tag">{{ tag }}</span> {% endfor %}
-          </td>
-          </tr><tr><td colspan="2"></td><td class="subtext">
-  <span class="score" id="score_14330547">{{ article.score }} points</span> by <a href="http://news.ycombinator.com/user?id={{ article.submitter }}" class="hnuser">{{ article.submitter }}</a> <span class="age"><a href="http://news.ycombinator.com/item?id={{ article.hn_id }}">{{ article.age }} hours ago</a></span> | <a href="http://news.ycombinator.com/item?id={{ article.hn_id }}">{{ article.number_of_comments }}&nbsp;comments</a>              </td></tr>
-  <tr class="spacer" style="height:5px"></tr>
-{% endfor %}
-
-<tr class="spacer" style="height:5px"></tr>
-
-    <!--<tr class="morespace" style="height:10px"></tr><tr><td colspan="2"></td><td class="title"><a href="news?p=2" class="morelink" rel="nofollow">More</a></td></tr>-->
-  </table>
-</td></tr>
-<tr><td><img src="http://news.ycombinator.com/s.gif" height="10" width="0"><table width="100%" cellspacing="0" cellpadding="1"><tr><td bgcolor="#3a91ca"></td></tr></table>
-
-<br></td></tr>      </table>
-</center>
-  </body></html>

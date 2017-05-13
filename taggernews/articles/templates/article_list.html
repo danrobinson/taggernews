@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<table border="0" cellpadding="0" cellspacing="0" class="itemlist">
+<tbody>
+
+{% for article in articles %}
+<tr class='athing' id='14330547'>
+      <td align="right" valign="top" class="title"><span class="rank">{{ forloop.counter }}.</span></td>      
+      <td valign="top" class="votelinks"><center>
+          <div class='votearrow' title='upvote'></div></center></td>
+          <td class="title"><a href="{{ article.article_url }}" class="storylink">{{ article.title }}</a>
+          <span class="sitebit comhead"> (<span class="sitestr">{{ article.site }}</span>)</span>
+          {% for tag in article.tags.all %}<a href="/tags/{{ tag.name.lower }}"><span class="tag">{{ tag.name }}</span></a> {% endfor %}
+          </td>
+          </tr><tr><td colspan="2"></td><td class="subtext">
+  <span class="score" id="score_14330547">{{ article.score }} points</span> by <a href="http://news.ycombinator.com/user?id={{ article.submitter }}" class="hnuser">{{ article.submitter }}</a> <span class="age"><a href="http://news.ycombinator.com/item?id={{ article.hn_id }}">{{ article.age }} hours ago</a></span> | <a href="http://news.ycombinator.com/item?id={{ article.hn_id }}">{{ article.number_of_comments }}&nbsp;comments</a>              </td></tr>
+  <tr class="spacer" style="height:5px"></tr>
+{% endfor %}
+<tr class="spacer" style="height:5px"></tr>
+
+    <!--<tr class="morespace" style="height:10px"></tr><tr><td colspan="2"></td><td class="title"><a href="news?p=2" class="morelink" rel="nofollow">More</a></td></tr>-->
+  </tbody>
+  </table>
+
+{% endblock %}

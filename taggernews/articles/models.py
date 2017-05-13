@@ -13,6 +13,9 @@ class Tag(models.Model):
   def __unicode__(self):
     return self.name
 
+  def get_relative_url(self):
+    return '/tags/' + self.name.lower()
+
 class Article(models.Model):
   hn_id = models.IntegerField(primary_key=True)
   title = models.CharField(max_length=255)
