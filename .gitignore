@@ -1,6 +1,6 @@
 .DS_Store
 
-*.sqlite
+*.sqlite3
 
 *.egg-info
 *.pot

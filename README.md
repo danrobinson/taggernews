@@ -1,7 +1,7 @@
 ## Tagger News
 
 ```
-git clone http://github.com/danrobinson/taggernews
+git clone http://github.com/danrobinson/taggernews.git
 cd taggernews
 mkvirtualenv taggernews
 pip install -r requirements.txt
