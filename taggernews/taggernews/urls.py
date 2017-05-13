@@ -16,9 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from articles.views import front_page
+from articles.views import front_page, refresh_top_articles
 
 urlpatterns = [
     url(r'^$', front_page),
+    url(r'^refresh', refresh_top_articles),
     url(r'^admin/', admin.site.urls),
 ]

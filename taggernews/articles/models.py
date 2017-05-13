@@ -16,11 +16,11 @@ class Tag(models.Model):
 class Article(models.Model):
   hn_id = models.IntegerField(primary_key=True)
   title = models.CharField(max_length=255)
-  article_url = models.URLField(max_length=255)
+  article_url = models.URLField(max_length=255, null=True)
   score = models.IntegerField()
   number_of_comments = models.IntegerField()
   submitter = models.CharField(max_length=255)
-  age = models.IntegerField()
+  timestamp = models.IntegerField()
   tags = models.ManyToManyField(Tag)
 
   def __unicode__(self):
