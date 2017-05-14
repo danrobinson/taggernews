@@ -4,7 +4,7 @@ import random
 from django.core.management.base import BaseCommand, CommandError
 from gensim import corpora, models
 from goose import Goose
-import nltk
+from nltk import word_tokenize
 import numpy as np
 import requests
 
@@ -21,7 +21,7 @@ class TextTagger(object):
 
   def text_to_topic_list(self, text):
     text = text.lower()
-    tokens = nltk.word_tokenize(text)
+    tokens = word_tokenize(text)
     bow = self.gensim_dict.doc2bow(tokens)
     return self.topic_modeler[bow]    
 
