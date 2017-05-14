@@ -53,6 +53,7 @@ class Command(BaseCommand):
       article_tags = Tag.objects.filter(id__in=[t.id for t in article_tags])
       article.tags.add(*article_tags)
       
+      article.tagged = True
       article.save()
         
       self.stdout.write(self.style.SUCCESS(
