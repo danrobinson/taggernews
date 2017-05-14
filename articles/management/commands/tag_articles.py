@@ -2,7 +2,7 @@ import pickle
 import random
 
 from django.core.management.base import BaseCommand, CommandError
-from gensim import corpora, models
+from gensim import corpora, models, utils
 from goose import Goose
 import nltk
 from nltk import word_tokenize
@@ -24,12 +24,9 @@ class TextTagger(object):
 
   def text_to_topic_list(self, text):
     text = text.lower()
-    try:
-      tokens = word_tokenize(text)
-      bow = self.gensim_dict.doc2bow(tokens)
-      return self.topic_modeler[bow]    
-    except:
-      pass
+    tokens = list(utils.tokenize(text))
+    bow = self.gensim_dict.doc2bow(tokens)
+    return self.topic_modeler[bow]    
 
   def text_to_numpy(self, text):
     out = np.zeros(self.topic_modeler.num_topics)
@@ -63,7 +60,7 @@ text_tagger = TextTagger.init_from_files(
   "articles/model/model_100topics_10passMay13_2159.gensim", 
   "articles/model/hn_dictionaryMay13_2152.pkl", 
   "articles/model/logistic_models_May14_0015.pkl", 
-  threshold=0.2,
+  threshold=0.3,
 )
 
 class Command(BaseCommand):
@@ -75,23 +72,26 @@ class Command(BaseCommand):
     
     goose = Goose()
     for i, article in enumerate(articles):
-      # Get article content
       try:
+        # Get article content
         goosed_article = goose.extract(url=article.article_url)                
-       
-        # Make tag predictions
-        prediction_input = '%s|||\n\n%s' % (
-          goosed_article.cleaned_text,
-          goosed_article.meta_description,
-        )
-        prediction_input = prediction_input.encode('utf-8')
-        predicted_tags = text_tagger.text_to_tags(prediction_input)
-
-      except Exception as e:
-        self.stdout.write(self.style.ERROR(
-          'Failed to tag article %s. Error: %s.' % (
-            article.hn_id, e)))
+      except IndexError:
+        self.stdout.write(self.style.ERROR('My goose is loose.'))
         continue
+
+      # Make tag predictions
+      prediction_input = '%s|||\n\n%s' % (
+        goosed_article.cleaned_text,
+        goosed_article.meta_description,
+      )
+      prediction_input = prediction_input.encode('utf-8')
+      predicted_tags = text_tagger.text_to_tags(prediction_input)
+
+      # except Exception as e:
+      #   self.stdout.write(self.style.ERROR(
+      #     'Failed to tag article %s. Error: %s.' % (
+      #       article.hn_id, e)))
+      #   continue
 
       # Add tags to db (only matters if there's a previously unseen tag)
       existing_tags = Tag.objects.filter(name__in=predicted_tags)
