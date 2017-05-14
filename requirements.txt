@@ -8,7 +8,6 @@ dj-database-url==0.4.1
 Django==1.11.1
 django-debug-toolbar==1.8
 enum34==1.1.6
-goose-extractor==1.0.25
 gunicorn==19.6.0
 isort==4.2.5
 jieba==0.38
