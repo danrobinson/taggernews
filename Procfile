@@ -1,1 +1,1 @@
-web: gunicorn taggernews.taggernews.wsgi
+web: gunicorn taggernews.wsgi
