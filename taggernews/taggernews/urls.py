@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from articles.views import front_page, by_tag, all_tags
+from articles.views import news, by_tag, all_tags
 
 urlpatterns = [
-    url(r'^$', front_page),
+    url(r'^$', news),
+    url(r'^news/$', news),
+    url(r'^news/(?P<page>\d+)$', news),
     url(r'^tags/(?P<tag_string>[A-Za-z]+(\+[A-Za-z]+)*)/$', by_tag),
     url(r'^tags/$', all_tags),
     url(r'^admin/', admin.site.urls)

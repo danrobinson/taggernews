@@ -55,7 +55,7 @@ pre { overflow: auto; padding: 2px; }
 pre:hover { overflow:auto }
 
 .votearrow {
-  width:      10px;
+  width:      3px;
   height:     10px;
   border:     0px;
   margin:     3px 2px 6px;
@@ -72,6 +72,8 @@ pre:hover { overflow:auto }
   -ms-transform:     rotate(180deg);  /* IE9 */
   transform:         rotate(180deg);  /* W3C complaint browsers */
 }
+
+.rank { padding-top: 1px }
 
 /* mobile device */
 @media only screen

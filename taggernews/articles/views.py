@@ -11,11 +11,18 @@ from models import Article, Tag
 from django.db.models import Count
 
 
-def front_page(request):
-  articles = Article.objects.all().order_by('-timestamp')[:30]
+def news(request, page="1"):
+  page_number = int(page)
+
+  start = (page_number - 1) * 30
+  end = page_number * 30
+
+  articles = Article.objects.all().order_by('-timestamp')[start:end]
 
   context = {
-    "articles": articles
+    "articles": articles,
+    "page_number": page_number,
+    "offset": (page_number - 1) * 30
   }
 
   return render(request, 'article_list.html', context)

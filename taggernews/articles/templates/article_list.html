@@ -7,7 +7,7 @@
 
 {% for article in articles %}
 <tr class='athing' id='14330547'>
-      <td align="right" valign="top" class="title"><span class="rank">{{ forloop.counter }}.</span></td>      
+      <td align="right" valign="top" class="title"><div style="" class="rank">{{ forloop.counter|add:offset }}.</div></td>      
       <td valign="top" class="votelinks"><center>
           <div class='votearrow' title='upvote'></div></center></td>
           <td class="title"><a href="{{ article.get_absolute_url }}" class="storylink">{{ article.title }}</a>
@@ -20,7 +20,7 @@
 {% endfor %}
 <tr class="spacer" style="height:5px"></tr>
 
-    <!--<tr class="morespace" style="height:10px"></tr><tr><td colspan="2"></td><td class="title"><a href="news?p=2" class="morelink" rel="nofollow">More</a></td></tr>-->
+    <tr class="morespace" style="height:10px"></tr><tr><td colspan="2"></td><td class="title"><a href="/news/{{ page_number|add:1 }}" class="morelink" rel="nofollow">More</a></td></tr>
   </tbody>
   </table>
 
