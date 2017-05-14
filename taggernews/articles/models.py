@@ -5,6 +5,8 @@ from django.db import models
 
 from urlparse import urlparse
 
+import datetime
+
 # Create your models here.
 
 class Tag(models.Model):
@@ -21,7 +23,7 @@ class Article(models.Model):
   title = models.CharField(max_length=255)
   article_url = models.URLField(max_length=255, null=True)
   score = models.IntegerField()
-  number_of_comments = models.IntegerField()
+  number_of_comments = models.IntegerField(null=True)
   submitter = models.CharField(max_length=255)
   timestamp = models.IntegerField()
   tags = models.ManyToManyField(Tag)
@@ -30,4 +32,23 @@ class Article(models.Model):
     return self.title
 
   def site(self):
-    return urlparse(self.article_url).netloc[4:]
+    if not self.article_url:
+      return None
+    else:
+      netloc = urlparse(self.get_absolute_url()).netloc
+      path = netloc.split(".")
+      try:
+        return path[-2] + "." + path[-1]
+      except:
+        return netloc
+
+  def age(self):
+    now = datetime.datetime.now()
+    then = datetime.datetime.fromtimestamp(self.timestamp)
+    print "now", now
+    print "then", then
+    delta = now - then
+    return delta.seconds / 360
+
+  def get_absolute_url(self):
+    return self.article_url or "https://news.ycombinator.com/item?id=" + str(self.hn_id)

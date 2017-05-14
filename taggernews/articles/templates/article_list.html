@@ -10,8 +10,8 @@
       <td align="right" valign="top" class="title"><span class="rank">{{ forloop.counter }}.</span></td>      
       <td valign="top" class="votelinks"><center>
           <div class='votearrow' title='upvote'></div></center></td>
-          <td class="title"><a href="{{ article.article_url }}" class="storylink">{{ article.title }}</a>
-          <span class="sitebit comhead"> (<span class="sitestr">{{ article.site }}</span>)</span>
+          <td class="title"><a href="{{ article.get_absolute_url }}" class="storylink">{{ article.title }}</a>
+          {% if article.site %}<span class="sitebit comhead"> (<a href="https://news.ycombinator.com/from?site={{ article.site }}"><span class="sitestr">{{ article.site }}</span></a>)</span>{% endif %}
           {% for tag in article.tags.all %}<a href="/tags/{{ tag.name.lower }}"><span class="tag">{{ tag.name }}</span></a> {% endfor %}
           </td>
           </tr><tr><td colspan="2"></td><td class="subtext">
