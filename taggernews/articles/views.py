@@ -30,8 +30,6 @@ def news(request, page="1"):
 def by_tag(request, tag_string):
   tag_names = [tag_name.lower().capitalize() for tag_name in tag_string.split('+')]
 
-  print tag_names
-
   tags = Tag.objects.filter(name__in=tag_names)
 
   articles = Article.objects.filter(tags__in=tags)
