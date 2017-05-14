@@ -11,6 +11,7 @@ import datetime
 
 class Tag(models.Model):
   name = models.CharField(max_length=300)
+  lowercase_name = models.CharField(max_length=300)
 
   def __unicode__(self):
     return self.name
@@ -27,7 +28,7 @@ class Article(models.Model):
   submitter = models.CharField(max_length=500)
   timestamp = models.IntegerField()
   tags = models.ManyToManyField(Tag, blank=True)
-  rank = models.IntegerField(null=True, blank=True)
+  rank = models.IntegerField(null=True)
   tagged = models.BooleanField(default=False)
   prediction_input = models.TextField(null=True)
 
