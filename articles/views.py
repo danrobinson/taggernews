@@ -22,20 +22,28 @@ def news(request, page="1"):
   context = {
     "articles": articles,
     "page_number": page_number,
-    "offset": (page_number - 1) * 30
+    "offset": (page_number - 1) * 30,
+    "base_path": "/news/"
   }
-
+  
   return render(request, 'article_list.html', context)
 
-def by_tag(request, tag_string):
+def by_tag(request, tag_string, page="1"):
+  page_number = int(page)
+  start = (page_number - 1) * 30
+  end = page_number * 30
+
   tag_names = [tag_name.lower().capitalize() for tag_name in tag_string.split('+')]
 
   tags = Tag.objects.filter(name__in=tag_names)
 
-  articles = Article.objects.filter(tags__in=tags)
+  articles = Article.objects.filter(tags__in=tags).order_by('rank').prefetch_related('tags')[start:end]
 
   context = {
-    "articles": articles
+    "articles": articles,
+    "page_number": page_number,
+    "offset": (page_number - 1) * 30,
+    "base_path": "/tags/" + tag_string + "/"
   }
   return render(request, 'article_list.html', context)
 

@@ -26,8 +26,8 @@ class Article(models.Model):
   number_of_comments = models.IntegerField(null=True)
   submitter = models.CharField(max_length=500)
   timestamp = models.IntegerField()
-  tags = models.ManyToManyField(Tag)
-  rank = models.IntegerField(null=True)
+  tags = models.ManyToManyField(Tag, blank=True)
+  rank = models.IntegerField(null=True, blank=True)
   tagged = models.BooleanField(default=False)
 
   def __unicode__(self):
