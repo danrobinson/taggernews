@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 from urllib import parse
+# from urlparse import urlparse as parse
 
 import datetime
 

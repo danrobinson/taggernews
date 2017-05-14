@@ -91,20 +91,11 @@ class Command(BaseCommand):
     articles = Article.objects.filter(
       article_url__isnull=False)
     
-    # goose = Goose()
     for i, article in enumerate(articles):
       try:     
-        # Get article content
         prediction_input = article.prediction_input
         if prediction_input is None:
           raise Exception("No prediction_input")
-          goosed_article = goose.extract(url=article.article_url)                          
-          prediction_input = '%s|||\n\n%s' % (
-            goosed_article.cleaned_text,
-            goosed_article.meta_description,
-          )
-          article.prediction_input = prediction_input
-          article.save()
 
         # Make tag predictions        
         prediction_input = prediction_input.encode('utf-8')
