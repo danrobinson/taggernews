@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls import include
 
-from articles.views import news, by_tag, all_tags
+from taggernews.articles.views import news, by_tag, all_tags
 
 urlpatterns = [
   url(r'^$', news),
