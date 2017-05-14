@@ -24,9 +24,12 @@ class TextTagger(object):
 
   def text_to_topic_list(self, text):
     text = text.lower()
-    tokens = word_tokenize(text)
-    bow = self.gensim_dict.doc2bow(tokens)
-    return self.topic_modeler[bow]    
+    try:
+      tokens = word_tokenize(text)
+      bow = self.gensim_dict.doc2bow(tokens)
+      return self.topic_modeler[bow]    
+    except:
+      pass
 
   def text_to_numpy(self, text):
     out = np.zeros(self.topic_modeler.num_topics)
