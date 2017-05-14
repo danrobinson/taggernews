@@ -15,7 +15,7 @@
           {% for tag in article.tags.all %}<a href="/tags/{{ tag.name.lower }}"><span class="tag">{{ tag.name }}</span></a> {% endfor %}
           </td>
           </tr><tr><td colspan="2"></td><td class="subtext">
-  <span class="score" id="score_14330547">{{ article.score }} points</span> by <a href="http://news.ycombinator.com/user?id={{ article.submitter }}" class="hnuser">{{ article.submitter }}</a> <span class="age"><a href="http://news.ycombinator.com/item?id={{ article.hn_id }}">{{ article.age }} hours ago</a></span> | <a href="http://news.ycombinator.com/item?id={{ article.hn_id }}">{{ article.number_of_comments }}&nbsp;comments</a>              </td></tr>
+  <span class="score" id="score_14330547">{{ article.score }} points</span> by <a href="http://news.ycombinator.com/user?id={{ article.submitter }}" class="hnuser">{{ article.submitter }}</a> <span class="age"><a href="http://news.ycombinator.com/item?id={{ article.hn_id }}">{{ article.age }} ago</a></span> | <a href="http://news.ycombinator.com/item?id={{ article.hn_id }}">{{ article.number_of_comments }}&nbsp;comments</a>              </td></tr>
   <tr class="spacer" style="height:5px"></tr>
 {% endfor %}
 <tr class="spacer" style="height:5px"></tr>

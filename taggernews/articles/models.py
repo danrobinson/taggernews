@@ -46,10 +46,12 @@ class Article(models.Model):
   def age(self):
     now = datetime.datetime.now()
     then = datetime.datetime.fromtimestamp(self.timestamp)
-    print "now", now
-    print "then", then
     delta = now - then
-    return delta.seconds / 360
+    if (delta.seconds < 60):
+      return str(delta.seconds) + " seconds"
+    if (delta.seconds < 3600):
+      return str(delta.seconds / 60) + " minutes"
+    return str(delta.seconds / 3600) + " hours"
 
   def get_absolute_url(self):
     return self.article_url or "https://news.ycombinator.com/item?id=" + str(self.hn_id)
