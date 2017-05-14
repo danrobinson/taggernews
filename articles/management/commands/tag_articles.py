@@ -75,18 +75,20 @@ class Command(BaseCommand):
       # Get article content
       try:
         goosed_article = goose.extract(url=article.article_url)                
-      except Exception:
-        self.stdout.write(self.style.ERROR(
-          'Failed to get article %s content.' % article.hn_id))
-        continue
        
-      # Make tag predictions
-      prediction_input = '%s|||\n\n%s' % (
-        goosed_article.cleaned_text,
-        goosed_article.meta_description,
-      )
-      prediction_input = prediction_input.encode('utf-8')
-      predicted_tags = text_tagger.text_to_tags(prediction_input)
+        # Make tag predictions
+        prediction_input = '%s|||\n\n%s' % (
+          goosed_article.cleaned_text,
+          goosed_article.meta_description,
+        )
+        prediction_input = prediction_input.encode('utf-8')
+        predicted_tags = text_tagger.text_to_tags(prediction_input)
+
+      except Exception as e:
+        self.stdout.write(self.style.ERROR(
+          'Failed to tag article %s. Error: %s.' % (
+            article.hn_id, e)))
+        continue
 
       # Add tags to db (only matters if there's a previously unseen tag)
       existing_tags = Tag.objects.filter(name__in=predicted_tags)
