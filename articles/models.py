@@ -10,7 +10,7 @@ import datetime
 # Create your models here.
 
 class Tag(models.Model):
-  name = models.CharField(max_length=255)
+  name = models.CharField(max_length=300)
 
   def __unicode__(self):
     return self.name
@@ -24,7 +24,7 @@ class Article(models.Model):
   article_url = models.URLField(max_length=1000, null=True)
   score = models.IntegerField()
   number_of_comments = models.IntegerField(null=True)
-  submitter = models.CharField(max_length=255)
+  submitter = models.CharField(max_length=500)
   timestamp = models.IntegerField()
   tags = models.ManyToManyField(Tag)
   rank = models.IntegerField(null=True)
