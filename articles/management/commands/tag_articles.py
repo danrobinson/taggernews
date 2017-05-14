@@ -82,9 +82,9 @@ class Command(BaseCommand):
        
       # Make tag predictions
       prediction_input = '%s|||\n\n%s' % (
-        goosed_article.cleaned_text.encode('utf-8'),
-        goosed_article.meta_description.encode('utf-8'),
-      )
+        goosed_article.cleaned_text,
+        goosed_article.meta_description,
+      ).encode('utf-8')
       predicted_tags = text_tagger.text_to_tags(prediction_input)
 
       # Add tags to db (only matters if there's a previously unseen tag)
