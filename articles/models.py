@@ -3,8 +3,10 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-from urllib import parse
-# from urlparse import urlparse as parse
+try:
+  from urllib import parse
+except ImportError:
+  from urlparse import urlparse as parse
 
 import datetime
 
