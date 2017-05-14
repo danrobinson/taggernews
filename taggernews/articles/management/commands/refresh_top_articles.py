@@ -20,7 +20,7 @@ class Command(BaseCommand):
         article = Article.objects.get(hn_id=article_id)
         article.score = article_info.get('score')
         article.number_of_comments = article_info.get('descendants')
-        article.rank = article_info.get('rank')
+        article.rank = rank
         article.save()
         update_count += 1
       except Article.DoesNotExist:
