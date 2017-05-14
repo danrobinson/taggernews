@@ -20,8 +20,8 @@ class Tag(models.Model):
 
 class Article(models.Model):
   hn_id = models.IntegerField(primary_key=True)
-  title = models.CharField(max_length=255)
-  article_url = models.URLField(max_length=255, null=True)
+  title = models.CharField(max_length=1500)
+  article_url = models.URLField(max_length=1000, null=True)
   score = models.IntegerField()
   number_of_comments = models.IntegerField(null=True)
   submitter = models.CharField(max_length=255)
