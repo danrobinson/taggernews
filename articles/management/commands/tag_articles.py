@@ -4,11 +4,14 @@ import random
 from django.core.management.base import BaseCommand, CommandError
 from gensim import corpora, models
 from goose import Goose
+import nltk
 from nltk import word_tokenize
 import numpy as np
 import requests
 
 from articles.models import Article, Tag
+
+nltk.download('punkt')
 
 class TextTagger(object):
   """Object which tags articles. Needs topic modeler and """
