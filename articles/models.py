@@ -29,6 +29,7 @@ class Article(models.Model):
   tags = models.ManyToManyField(Tag, blank=True)
   rank = models.IntegerField(null=True, blank=True)
   tagged = models.BooleanField(default=False)
+  prediction_input = models.TextField(null=True)
 
   def __unicode__(self):
     return self.title

@@ -76,14 +76,18 @@ class Command(BaseCommand):
     goose = Goose()
     for i, article in enumerate(articles):
       # Get article content
-      try:
-        goosed_article = goose.extract(url=article.article_url)                
-       
+      try:     
         # Make tag predictions
-        prediction_input = '%s|||\n\n%s' % (
-          goosed_article.cleaned_text,
-          goosed_article.meta_description,
-        )
+        prediction_input = article.prediction_input
+        if prediction_input is None:
+          goosed_article = goose.extract(url=article.article_url)                          
+          prediction_input = '%s|||\n\n%s' % (
+            goosed_article.cleaned_text,
+            goosed_article.meta_description,
+          )
+          article.prediction_input = prediction_input
+          article.save()
+        
         prediction_input = prediction_input.encode('utf-8')
         predicted_tags = text_tagger.text_to_tags(prediction_input)
 
