@@ -17,7 +17,7 @@ def news(request, page="1"):
   start = (page_number - 1) * 30
   end = page_number * 30
 
-  articles = Article.objects.all().exclude(rank__isnull=True).order_by('rank').prefetch_related('tags')[start:end]
+  articles = Article.objects.all().exclude(rank__isnull=True).exclude(tags__isnull=True).order_by('rank').prefetch_related('tags')[start:end]
 
   context = {
     "articles": articles,
@@ -34,6 +34,8 @@ def by_tag(request, tag_string, page="1"):
   end = page_number * 30
 
   tag_names = [tag_name.lower() for tag_name in tag_string.split('+')]
+
+  print tag_names
 
   tags = Tag.objects.filter(lowercase_name__in=tag_names)
 
