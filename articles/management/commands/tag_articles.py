@@ -103,6 +103,6 @@ class Command(BaseCommand):
       article.save()
         
       self.stdout.write(self.style.SUCCESS(
-        'Tagged article %s (%s of %s)' % (
-        article.hn_id, i + 1, articles.count())
+        'Tagged article %s (%s of %s)\n%s\n%s' % (
+        article.hn_id, i + 1, articles.count(), article.title, article_tags)
       ))
