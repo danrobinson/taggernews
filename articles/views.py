@@ -25,7 +25,7 @@ def news(request, page="1"):
     "offset": (page_number - 1) * 30,
     "base_path": "/news/"
   }
-  
+
   return render(request, 'article_list.html', context)
 
 def by_tag(request, tag_string, page="1"):

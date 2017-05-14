@@ -96,7 +96,7 @@ class Command(BaseCommand):
       # Add tags to db (only matters if there's a previously unseen tag)
       existing_tags = Tag.objects.filter(name__in=predicted_tags)
       new_tags = set(predicted_tags) - set([t.name for t in existing_tags])
-      new_tags = Tag.objects.bulk_create([Tag(name=t) for t in new_tags])
+      new_tags = Tag.objects.bulk_create([Tag(name=t,lowercase_name=t.lower()) for t in new_tags])
       
       # Associate tags with article (many-to-many)
       article_tags = list(existing_tags) + new_tags
