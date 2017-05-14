@@ -6,7 +6,7 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 
-from models import Article, Tag
+from .models import Article, Tag
 
 from django.db.models import Count
 
@@ -35,7 +35,7 @@ def by_tag(request, tag_string, page="1"):
 
   tag_names = [tag_name.lower() for tag_name in tag_string.split('+')]
 
-  print tag_names
+  print(tag_names)
 
   tags = Tag.objects.filter(lowercase_name__in=tag_names)
 

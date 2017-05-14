@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-from urlparse import urlparse
+from urllib import parse
 
 import datetime
 
@@ -39,7 +39,7 @@ class Article(models.Model):
     if not self.article_url:
       return None
     else:
-      netloc = urlparse(self.get_absolute_url()).netloc
+      netloc = parse(self.get_absolute_url()).netloc
       path = netloc.split(".")
       try:
         return path[-2] + "." + path[-1]

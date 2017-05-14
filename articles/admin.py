@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from models import Article, Tag
+from .models import Article, Tag
 
 from django.contrib import admin
 

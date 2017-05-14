@@ -3,15 +3,35 @@ import random
 
 from django.core.management.base import BaseCommand, CommandError
 from gensim import corpora, models, utils
-from goose import Goose
+# from goose import Goose
 import nltk
 from nltk import word_tokenize
 import numpy as np
 import requests
+import sys
 
 from articles.models import Article, Tag
 
 nltk.download('punkt')
+
+from lib2to3.fixes.fix_imports import MAPPING
+
+REVERSE_MAPPING={}
+for key,val in MAPPING.items():
+    REVERSE_MAPPING[val]=key
+
+class Python_3_Unpickler(pickle.Unpickler):
+    """Class for pickling objects from Python 3"""
+    def find_class(self,module,name):
+        if module in REVERSE_MAPPING:
+            module=REVERSE_MAPPING[module]
+        __import__(module)
+        mod = sys.modules[module]
+        klass = getattr(mod, name)
+        return klass
+
+def load_3(file):
+    return Python_3_Unpickler(file).load()  
 
 class TextTagger(object):
   """Object which tags articles. Needs topic modeler and """
@@ -44,6 +64,7 @@ class TextTagger(object):
       tag_prob = lr_model.predict_proba(input_vect)[0, 1]
       if tag_prob > self.threshold:
         tags.append(label)
+
     return tags
 
   @classmethod
@@ -52,30 +73,31 @@ class TextTagger(object):
     topic_modeler = models.ldamodel.LdaModel.load(topic_model_fname)
     gensim_dict = corpora.Dictionary.load(gensim_dict_fname)
     with open(lr_dict_fname, "rb") as f:
-      lr_dict = pickle.load(f)
+      lr_dict = load_3(f)
     return cls(topic_modeler, gensim_dict, lr_dict, *args, **kwargs)
     
 
 text_tagger = TextTagger.init_from_files(
-  "articles/model/model_100topics_10passMay13_2159.gensim", 
-  "articles/model/hn_dictionaryMay13_2152.pkl", 
-  "articles/model/logistic_models_May14_0015.pkl", 
+  "articles/model/model_100topics_10passMay14_0259.gensim", 
+  "articles/model/hn_dictionaryMay14_0240.pkl", 
+  "articles/model/randomforest_modelsMay14_0344.pkl", 
   threshold=0.3,
 )
 
 class Command(BaseCommand):
-  help = 'Closes the specified poll for voting'
+  help = 'tags articles'
 
   def handle(self, *args, **options):
     articles = Article.objects.filter(
-      tagged=False, article_url__isnull=False)
+      article_url__isnull=False)
     
-    goose = Goose()
+    # goose = Goose()
     for i, article in enumerate(articles):
       try:     
         # Get article content
         prediction_input = article.prediction_input
         if prediction_input is None:
+          raise Exception("No prediction_input")
           goosed_article = goose.extract(url=article.article_url)                          
           prediction_input = '%s|||\n\n%s' % (
             goosed_article.cleaned_text,
@@ -95,11 +117,7 @@ class Command(BaseCommand):
         continue
 
       # Make tag predictions
-      prediction_input = '%s|||\n\n%s' % (
-        goosed_article.cleaned_text,
-        goosed_article.meta_description,
-      )
-      prediction_input = prediction_input.encode('utf-8')
+      prediction_input = prediction_input.decode('utf-8')
       predicted_tags = text_tagger.text_to_tags(prediction_input)
 
       # Add tags to db (only matters if there's a previously unseen tag)

@@ -18,3 +18,4 @@ build/
 tests/report/
 .env
 staticfiles
+articles/model/
