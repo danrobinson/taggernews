@@ -12,7 +12,7 @@ from django.db.models import Count
 
 
 def front_page(request):
-  articles = Article.objects.all().order_by('-hn_id')
+  articles = Article.objects.all().order_by('-timestamp')[:30]
 
   context = {
     "articles": articles
