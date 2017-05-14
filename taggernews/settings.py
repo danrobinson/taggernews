@@ -16,7 +16,6 @@ import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -24,10 +23,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '^ci@hatqo-ru^xvw%vitf^jw!@k)n4c76$t+azr-t3ddj+p648'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG") == "True"
 
-ALLOWED_HOSTS = ['taggernews.herokuapp.com', 'www.taggernews.com', 'taggernews.com']
-
+ALLOWED_HOSTS = ['taggernews.herokuapp.com', 'www.taggernews.com', 
+                 'taggernews.com', '0.0.0.0', 'localhost']
 
 # Application definition
 

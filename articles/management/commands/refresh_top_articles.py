@@ -1,7 +1,10 @@
 from django.core.management.base import BaseCommand, CommandError
 import requests
+import sys
 
 from articles.models import Article
+
+
 
 TOP_ARTICLES_URL = 'https://hacker-news.firebaseio.com/v0/topstories.json'
 ITEM_URL = 'https://hacker-news.firebaseio.com/v0/item/%s.json'
@@ -24,17 +27,21 @@ class Command(BaseCommand):
         article.save()
         update_count += 1
       except Article.DoesNotExist:
-        Article.objects.create(
-          hn_id=article_id,
-          title=article_info.get('title'),
-          article_url=article_info.get('url'),
-          score=article_info.get('score'),
-          number_of_comments=article_info.get('descendants'),
-          submitter=article_info.get('by'),
-          timestamp=article_info.get('time'),
-          rank=rank,
-        )
-        create_count += 1
+        try:
+          Article.objects.create(
+            hn_id=article_id,
+            title=article_info.get('title'),
+            article_url=article_info.get('url'),
+            score=article_info.get('score'),
+            number_of_comments=article_info.get('descendants'),
+            submitter=article_info.get('by'),
+            timestamp=article_info.get('time'),
+            rank=rank,
+          )
+          create_count += 1
+        except e:
+          sys.stderr.write(str(e))
+
       
       if rank % 10 == 0:
         message = "Added %s articles, updated %s articles..." % (
