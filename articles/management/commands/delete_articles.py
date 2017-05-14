@@ -11,4 +11,4 @@ class Command(BaseCommand):
 
   def handle(self, *args, **options):
     Article.objects.all().delete()
-    self.stdout.write(self.style.SUCCESS("Deleted all articles.")
+    self.stdout.write(self.style.SUCCESS("Deleted all articles."))
