@@ -29,3 +29,8 @@ six==1.10.0
 sqlparse==0.2.3
 whitenoise==3.2
 wrapt==1.10.10
+gensim==2.1.0
+nltk==3.2.2
+numpy==1.12.1
+scikit-learn==0.18.1
+sklearn==0.0
