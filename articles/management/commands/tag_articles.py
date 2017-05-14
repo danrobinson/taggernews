@@ -1,64 +1,23 @@
-import pickle
 import random
 
 from django.core.management.base import BaseCommand, CommandError
-from gensim import corpora, models
 from goose import Goose
-import nltk
-import numpy as np
 import requests
 
 from articles.models import Article, Tag
 
-class TextTagger(object):
-  """Object which tags articles. Needs topic modeler and """
-  def __init__(self, topic_modeler, gensim_dict, lr_dict, threshold=0.5):
-    super(TextTagger, self).__init__()
-    self.topic_modeler = topic_modeler
-    self.gensim_dict = gensim_dict
-    self.lr_dict = lr_dict
-    self.threshold = threshold
+TOP_ARTICLES_URL = 'https://hacker-news.firebaseio.com/v0/topstories.json'
+ITEM_URL = 'https://hacker-news.firebaseio.com/v0/item/%s.json'
 
-  def text_to_topic_list(self, text):
-    text = text.lower()
-    tokens = nltk.word_tokenize(text)
-    bow = self.gensim_dict.doc2bow(tokens)
-    return self.topic_modeler[bow]    
-
-  def text_to_numpy(self, text):
-    out = np.zeros(self.topic_modeler.num_topics)
-    for idx, val in self.text_to_topic_list(text):
-      out[idx] = val
-    return out
-    
-  def text_to_topic_dict(self, text):
-    return {topic: weight for topic, weight in self.label_article(text)}
-
-  def text_to_tags(self, text):
-    input_vect = np.array([self.text_to_numpy(text)])
-    tags = []
-    for label, lr_model in self.lr_dict.items():
-      tag_prob = lr_model.predict_proba(input_vect)[0, 1]
-      if tag_prob > self.threshold:
-        tags.append(label)
-    return tags
-
-  @classmethod
-  def init_from_files(cls, topic_model_fname, gensim_dict_fname, lr_dict_fname,
-                      *args, **kwargs):
-    topic_modeler = models.ldamodel.LdaModel.load(topic_model_fname)
-    gensim_dict = corpora.Dictionary.load(gensim_dict_fname)
-    with open(lr_dict_fname, "rb") as f:
-      lr_dict = pickle.load(f)
-    return cls(topic_modeler, gensim_dict, lr_dict, *args, **kwargs)
-    
-
-text_tagger = TextTagger.init_from_files(
-  "articles/model/model_100topics_10passMay13_2159.gensim", 
-  "articles/model/hn_dictionaryMay13_2152.pkl", 
-  "articles/model/logistic_models_May14_0015.pkl", 
-  threshold=0.2,
-)
+def predict_tags(prediction_input):
+  # Replace with actual data science stuff
+  num_tags = random.randint(1, 3)
+  some_tags = [
+    'Apple', 'Data Science', 'Facebook', 'Tesla', 'Javascript',
+    'Startups', 'Politics', 'Google', 'Linux', 'DevOps', 'Design',
+  ] 
+  tags = random.sample(some_tags, num_tags)
+  return tags
 
 class Command(BaseCommand):
   help = 'Closes the specified poll for voting'
@@ -82,7 +41,7 @@ class Command(BaseCommand):
         goosed_article.cleaned_text.encode('utf-8'),
         goosed_article.meta_description.encode('utf-8'),
       )
-      predicted_tags = text_tagger.text_to_tags(prediction_input)
+      predicted_tags = predict_tags(prediction_input)
 
       # Add tags to db (only matters if there's a previously unseen tag)
       existing_tags = Tag.objects.filter(name__in=predicted_tags)
@@ -94,7 +53,6 @@ class Command(BaseCommand):
       article_tags = Tag.objects.filter(id__in=[t.id for t in article_tags])
       article.tags.add(*article_tags)
       
-      article.tagged = True
       article.save()
         
       self.stdout.write(self.style.SUCCESS(
