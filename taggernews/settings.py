@@ -26,7 +26,7 @@ SECRET_KEY = '^ci@hatqo-ru^xvw%vitf^jw!@k)n4c76$t+azr-t3ddj+p648'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['taggernews.herokuapp.com', 'www.taggernews.com', 'taggernews.com']
 
 
 # Application definition
@@ -134,3 +134,5 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+
