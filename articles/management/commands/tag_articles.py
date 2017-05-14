@@ -3,35 +3,14 @@ import random
 
 from django.core.management.base import BaseCommand, CommandError
 from gensim import corpora, models, utils
-# from goose import Goose
-import nltk
-from nltk import word_tokenize
+from goose import Goose
+from sklearn.externals import joblib
 import numpy as np
 import requests
 import sys
 
 from articles.models import Article, Tag
 
-nltk.download('punkt')
-
-from lib2to3.fixes.fix_imports import MAPPING
-
-REVERSE_MAPPING={}
-for key,val in MAPPING.items():
-    REVERSE_MAPPING[val]=key
-
-class Python_3_Unpickler(pickle.Unpickler):
-    """Class for pickling objects from Python 3"""
-    def find_class(self,module,name):
-        if module in REVERSE_MAPPING:
-            module=REVERSE_MAPPING[module]
-        __import__(module)
-        mod = sys.modules[module]
-        klass = getattr(mod, name)
-        return klass
-
-def load_3(file):
-    return Python_3_Unpickler(file).load()  
 
 class TextTagger(object):
   """Object which tags articles. Needs topic modeler and """
@@ -72,15 +51,14 @@ class TextTagger(object):
                       *args, **kwargs):
     topic_modeler = models.ldamodel.LdaModel.load(topic_model_fname)
     gensim_dict = corpora.Dictionary.load(gensim_dict_fname)
-    with open(lr_dict_fname, "rb") as f:
-      lr_dict = load_3(f)
+    lr_dict = joblib.load(lr_dict_fname)
     return cls(topic_modeler, gensim_dict, lr_dict, *args, **kwargs)
     
 
 text_tagger = TextTagger.init_from_files(
   "articles/model/model_100topics_10passMay14_0259.gensim", 
   "articles/model/hn_dictionaryMay14_0240.pkl", 
-  "articles/model/randomforest_modelsMay14_0344.pkl", 
+  "articles/model/serialized_model/rf_models.pkl", 
   threshold=0.3,
 )
 
