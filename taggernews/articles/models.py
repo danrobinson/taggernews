@@ -28,6 +28,7 @@ class Article(models.Model):
   timestamp = models.IntegerField()
   tags = models.ManyToManyField(Tag)
   rank = models.IntegerField(null=True)
+  tagged = models.BooleanField(default=False)
 
   def __unicode__(self):
     return self.title
