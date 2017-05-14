@@ -9,8 +9,8 @@ urlpatterns = [
   url(r'^$', news),
   url(r'^news/$', news),
   url(r'^news/(?P<page>\d+)$', news),
-  url(r'^tags/(?P<tag_string>[A-Za-z]+(\+[A-Za-z]+)*)/$', by_tag),
-  url(r'^tags/(?P<tag_string>[A-Za-z]+(\+[A-Za-z]+)*)/(?P<page>\d+)$', by_tag),
+  url(r'^tags/(?P<tag_string>[A-Za-z ]+(\+[A-Za-z ]+)*)/$', by_tag),
+  url(r'^tags/(?P<tag_string>[A-Za-z ]+(\+[A-Za-z ]+)*)/(?P<page>\d+)$', by_tag),
   url(r'^tags/$', all_tags),
   url(r'^admin/', admin.site.urls)
 ]
