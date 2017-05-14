@@ -21,6 +21,7 @@ class Command(BaseCommand):
         article.score = article_info.get('score')
         article.number_of_comments = article_info.get('descendants')
         article.rank = article_info.get('rank')
+        article.save()
         update_count += 1
       except Article.DoesNotExist:
         Article.objects.create(
@@ -45,5 +46,5 @@ class Command(BaseCommand):
       .update(rank=None)
 
     self.stdout.write(self.style.SUCCESS(
-      'Done. Added: %s, Created: %s' % (create_count, update_count)))
+      'Done. Added: %s, Updated: %s' % (create_count, update_count)))
         
