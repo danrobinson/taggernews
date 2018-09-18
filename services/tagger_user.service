@@ -1,0 +1,10 @@
+[Unit]
+Description=User tagging service
+After=multi-user.target
+[Service]
+Restart=always
+RestartSec=5
+Type=idle
+ExecStart=/opt/virtual_env/taggernews/bin/python /var/taggernews/tagger/tag_user.py
+[Install]
+WantedBy=multi-user.target

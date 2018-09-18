@@ -1,0 +1,2 @@
+*/10 * * * * /var/taggernews/tagger_script.sh
+* * * */4 * mysqldump tagger | gzip -9 > /var/backup/msyql_backup_$(date +%Y%m%d_%H%M).sql.gz

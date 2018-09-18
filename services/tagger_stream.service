@@ -1,0 +1,10 @@
+[Unit]
+Description=Tagger Stream Updater Service
+After=multi-user.target
+[Service]
+Restart=always
+RestartSec=5
+Type=idle
+ExecStart=/opt/virtual_env/taggernews/bin/python /var/taggernews/tagger/stream_updater.py
+[Install]
+WantedBy=multi-user.target

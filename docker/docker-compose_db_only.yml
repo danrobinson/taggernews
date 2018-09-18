@@ -1,0 +1,18 @@
+version: '2'
+services:
+  db:
+    env_file:
+      - ./.env
+    build: ./db
+    networks:
+      - main
+    ports:
+      - "3306:3306"
+    volumes:
+      - /opt/db:/var/lib/mysql
+    restart: always
+volumes:
+  db_data:
+  web:
+networks:
+  main:

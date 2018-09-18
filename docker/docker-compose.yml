@@ -1,0 +1,52 @@
+version: '2'
+services:
+  db:
+    env_file:
+      - ./.env
+    build: ./db
+    networks:
+      - main
+    ports:
+      - "3306:3306"
+    volumes:
+      - /opt/db:/var/lib/mysql
+    restart: always
+  web:
+    env_file:
+      - ./.env
+    build: ./web
+    networks:
+      - main
+    volumes:
+      - ./web/tagger:/usr/src/app
+    ports:
+      - "80:8000"
+    depends_on:
+      - db
+  stream:
+    env_file:
+      - ./.env
+    restart: on-failure
+    build: ./stream
+    networks:
+      - main
+    volumes:
+      - ./stream/stream:/usr/src/app
+    depends_on:
+      - db
+  refresh:
+    env_file:
+      - ./.env
+    restart: on-failure
+    build: ./refresh
+    networks:
+      - main
+    volumes:
+      - ./refresh/refresh:/usr/src/app
+    depends_on:
+      - db
+volumes:
+  db_data:
+  web:
+networks:
+  main:

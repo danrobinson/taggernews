@@ -1,0 +1,7 @@
+Django==1.11.1
+gunicorn==19.6.0
+mysqlclient==1.3.12
+whitenoise==3.2
+requests==2.14.2
+sqlalchemy
+sqlalchemy-utils

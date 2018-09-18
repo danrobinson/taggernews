@@ -1,0 +1,21 @@
+topic,regex
+Python,python|pandas
+Javascript,javascript|jquery|d3|angular|react|\.js
+Mobile,mobile|android|iphone|phone
+Design,design
+Security,security|worm|ransomware|attack|virus|patch|infosec
+Blockchain,blockchain|bitcoin|ethereum
+AI/Machine Learning,\bai\b|artificial intelligence|machine learning|deep learning|tensorflow|machine intelligence
+Google,google
+Microsoft,microsoft|windows|visual studio
+Apple,apple|mac\b|os ?x
+Facebook,facebook
+Amazon,amazon
+Startups,startup|\bvc\b
+Politics,trump|comey|russian|fbi|snowden|neutrality|white house|government|brexit|nsa
+Databases,sql|cockroachdb|mongodb|database|\bdb\b
+Linux,linux|debian|ubuntu|centos
+Web Development,web\b|javascript|\.js|front.?end|back.?end|full.*?stack
+Data Science,data scien|big data|data vi|data ?set|data analy|machine learning|pandas|ggplot2
+Science,bio|drug|researcher|genomic|physics|scienti|spacex|\\bmoon\\b|nasa|\\bastro|\\bmars\\b
+Math,math|geome|cryptograph|algebra|calculus

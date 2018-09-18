@@ -1,0 +1,83 @@
+create database tagger;
+
+create user 'tagger_client'@'localhost' identified by 'probablyNotTheRealPassword';
+grant insert, select, update on tagger.* to 'tagger_client'@'localhost';
+FLUSH PRIVILEGES;
+
+create user 'tagger_client'@'10.0.0.%' identified by 'probablyNotTheRealPassword';
+grant insert, select, update on tagger.* to 'tagger_client'@'10.0.0.%';
+FLUSH PRIVILEGES;
+
+create table tagger.tagger_article_text (
+    article_id integer not null,
+    parsed DateTime not null,
+    text mediumtext not null,
+    primary key (article_id)
+);
+
+create table tagger.tagger_article (
+    hn_id integer not null,
+    title varchar(1500),
+    state int not null,
+    parsed DateTime,
+    article_url varchar(1000),
+    score int,
+    number_of_comments int,
+    submitter varchar(15),
+    timestamp int,
+    rank int,
+    tagged TINYINT(1) default 0,
+    imported TINYINT(1) default 0,
+    primary key (hn_id)
+);
+
+alter table tagger.tagger_article add index submitter (submitter);
+alter table tagger.tagger_article add index rank (rank);
+
+create table tagger.tagger_user (
+    id varchar(15) not null,
+    state int not null,
+    last_parsed DateTime,
+    priority int,
+    total_items int,
+    karma int,
+    born Datetime,
+    bio varchar(2000),
+    primary key (id)
+);
+
+alter table tagger.tagger_user add index user_state (state);
+
+create table tagger.tagger_item (
+    hn_id integer not null,
+    submitter varchar(15) not null,
+    type varchar(10) not null,
+    parent int,
+    top_parent int,
+    imported boolean default False,
+    primary key (hn_id)
+);
+
+alter table tagger.tagger_item add index submitter (submitter);
+
+create table tagger.tagger_tag (
+    id int not null auto_increment,
+    name varchar(300),
+    lowercase_name varchar(300),
+    primary key (id)
+);
+
+create table tagger.tagger_article_tags(
+    id int not null auto_increment,
+    article_id integer not null,
+    tag_id integer not null,
+    primary key (id)
+);
+
+alter table tagger.tagger_article_tags add index article_idx (article_id);
+alter table tagger.tagger_article_tags add constraint fk_article FOREIGN KEY (article_id) references tagger_article(hn_id);
+
+
+create view ustate as select state, count(state) from tagger_user group by state;
+
+create view astate as select state, count(state) from tagger_article group by state;

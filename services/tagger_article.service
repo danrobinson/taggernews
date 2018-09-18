@@ -1,0 +1,10 @@
+[Unit]
+Description=Tagger Article Tagger
+After=multi-user.target
+[Service]
+Restart=always
+RestartSec=600
+Type=idle
+ExecStart=/opt/virtual_env/taggernews/bin/python /var/taggernews/tagger/tag_article.py
+[Install]
+WantedBy=multi-user.target

@@ -1,5 +1,7 @@
 .DS_Store
-
+*.plk
+*.npy
+*.gensim*
 *.sqlite3
 
 *.egg-info
@@ -19,3 +21,5 @@ tests/report/
 .env
 staticfiles
 articles/model/
+ml_models/
+.env
